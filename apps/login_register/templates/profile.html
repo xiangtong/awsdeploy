@@ -1,0 +1,107 @@
+<html>
+<head>
+<style media="screen">
+  h1{
+    color: grey;
+    display: inline-block;
+  }
+  body{
+    padding-left: 10%;
+  }
+  label{
+    margin: 10px;
+    margin-top: 10px;
+  }
+  .error{
+    color: red;
+    font-size: 20pt;
+    font-weight: bold;
+  }
+  table{
+    border: 1px solid black;
+    padding: 0;
+    border-collapse: collapse;
+  }
+  td{
+    /*border: 1px solid black;*/
+    padding: 5px;
+    margin:0;
+    border-left: 1px solid black;
+    border-rigth: 1px solid black;
+  }
+  th{
+    /*border: 1px solid black;*/
+    padding: 5px;
+    margin:0;
+    border-left: 1px solid black;
+    border-rigth: 1px solid black;
+    background-color: silver;
+  }
+  tr:nth-child(even) {background: #EEE}
+  tr:nth-child(odd) {background: #FFF}
+  .error{
+    color: red;
+    font-size: 14pt;
+    font-weight: bold;
+  }
+  .headlink{
+    position: relative;
+    left: 55%;
+  }
+</style>
+</head>
+  <body>
+    <div id="header">
+      <a  class='headlink' href="{% url 'users:logout' %}">Logout</a>
+    </div>
+    <h1>Hello:&nbsp{{user.username}}</h1>
+      {% if messages %}
+        {% for message in messages %}
+          <p class='error'>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    <h3>Your wish list</h3>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Added by</th>
+        <th>Data Added</th>
+        <th>Action</th>
+      </tr>
+      {% for item in myitems %}
+      <tr>
+        <td><a href="{% url 'wishlist:detail' id=item.id %}">{{item.name}}</a></td>
+        <td>{{item.post_by.username}}</td>
+        <td>{{item.created_at}}</td>
+        <td>
+          {% if item.post_by == user %}
+          <a href="{% url 'wishlist:delete' id=item.id %}">delete</a>
+          {% else %}
+          <a href="{% url 'wishlist:remove' id=item.id %}">Remove from my wishlist</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table></br>
+    <h3>Other Users' wish list</h3>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Added by</th>
+        <th>Data Added</th>
+        <th>Action</th>
+      </tr>
+      {% for item in otheritems %}
+      <tr>
+        <td><a href="{% url 'wishlist:detail' id=item.id %}">{{item.name}}</a></td>
+        <td>{{item.post_by.username}}</td>
+        <td>{{item.created_at}}</td>
+        <td>
+          <a href="{% url 'wishlist:addto' id=item.id %}">Add to my wishlist</a
+        </td>
+      </tr>
+      {% endfor %}
+    </table></br></br>
+    <a href="{% url 'wishlist:create' %}">Add item</a>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<html>
+<head>
+<style media="screen">
+  body{
+    padding-left: 10%;
+
+  }
+  input[type="text"]{
+    margin: 5px 0 0 0;
+  }
+  .error{
+    color: red;
+    font-size: 14pt;
+    font-weight: bold;
+  }
+  input[type='submit']{
+    background-color: blue;
+    color: white;
+  }
+  .headlink{
+    position: relative;
+    left: 55%;
+  }
+</style>
+</head>
+  <body>
+    <div id="header">
+      <a  class='headlink' href="{% url 'users:dashboard' %}">Home</a>&nbsp&nbsp&nbsp
+      <a  class='headlink' href="{% url 'users:logout' %}">Logout</a>
+    </div>
+    <h1>Create a new wishlist item</h1>
+      {% if messages %}
+        {% for message in messages %}
+          <p class='error'>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+
+    <!-- with all the data we can then construct a more structured output -->
+      <form class="" action="{% url 'wishlist:add' %}" method="POST">
+        {% csrf_token %}
+        Item/Product:</br>
+        <input type="text" name="item" value=""></br></br>
+        <input type="submit" name="" value="Add">
+      </form>
+  </body>
+</html>

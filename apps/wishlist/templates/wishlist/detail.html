@@ -1,0 +1,38 @@
+<html>
+<head>
+<style media="screen">
+  body{
+    padding-left: 10%;
+  }
+  .error{
+    color: red;
+    font-size: 14pt;
+    font-weight: bold;
+  }
+  .headlink{
+    position: relative;
+    left: 55%;
+  }
+</style>
+</head>
+  <body>
+    <div id="header">
+      <a  class='headlink' href="{% url 'users:dashboard' %}">Home</a>&nbsp&nbsp&nbsp
+      <a  class='headlink' href="{% url 'users:logout' %}">Logout</a>
+    </div>
+      {% if messages %}
+        {% for message in messages %}
+          <p class='error'>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    <h1>Product:&nbsp{{item.name}}</h1>
+    <!-- with all the data we can then construct a more structured output -->
+      <p>users who added this product/item under their wish list:</p>
+      <blockquote cite="http://">
+        {% for like in item.like_by.all %}
+        <p>{{like.username}}</p>
+        {% endfor %}
+      </blockquote>
+
+  </body>
+</html>
